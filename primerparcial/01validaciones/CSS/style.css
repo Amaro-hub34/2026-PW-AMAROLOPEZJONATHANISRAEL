@@ -7,7 +7,7 @@ body {
     margin: 0;
     font-family:'Courier New', Courier, monospace;
     color: #1f2937;
-    background-color: #2d459b;
+    background-color: #6473a9;
 
 }
 header {
@@ -57,4 +57,59 @@ footer {
 }
 .tarjeta a:hover {
     text-decoration: underline;
+}
+/* Sección de reglas para el formulario de registro */
+.formulario-registro {
+    background-color: #f9ebeb;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 25px;
+    border-radius: 0.5rem;
+    margin-top: 2rem;
+}
+#nombre {
+    display: block;
+    margin-bottom: 0.3rem;
+    padding: 0.8rem;
+    width: 100%;
+    border-radius: 0.5rem;
+    background-color: #444040;
+    color: #ffffff;
+    font-family: 'Times New Roman', Times, serif;
+}
+.titulo-formulario {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #030c18;
+    
+
+}
+#boleta {
+    display: block;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 0.25rem;
+    font-family: 'Cedilla', sans-serif;
+    
+}
+#boton-registrar {
+    display: block;
+    margin: 0 auto;
+    padding: 0.5rem;
+    background-color: #8e0ccf;
+    color: #0f0f0f;
+    border-radius: 0.35rem;
+    cursor: pointer;
+    border: none;
+}
+#boton-registrar:hover {
+    background-color: #a176bb;
+    color: #100e0e;
+}
+input:invalid {
+    border-color: #f30505;
+}
+input:valid {
+    border-color: #12e212;
 }

@@ -113,3 +113,11 @@ input:invalid {
 input:valid {
     border-color: #12e212;
 }
+#fecha {
+    display: block;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 0.25rem;
+    font-family: 'Cedilla', sans-serif;
+}

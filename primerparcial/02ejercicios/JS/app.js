@@ -61,4 +61,5 @@ formArreglos.addEventListener('submit', (evento) =>{
 
     resultadoArreglos.textContent = resultado;
 });
+
 pintarTabla();

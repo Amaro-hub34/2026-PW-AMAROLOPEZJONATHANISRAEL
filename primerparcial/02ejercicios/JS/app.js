@@ -37,7 +37,7 @@ formArreglos.addEventListener('submit', (evento) =>{
 
     let resultado;
     //Lógica para cada operación de arreglo, o sea el switch para que se pueda ejecutar y mostrar el resultado en el div
-    
+    //es para al darle ejecturar muestre el resultado de la operación seleccionada en el select
 
     switch(operacion){
         case 'forEach':

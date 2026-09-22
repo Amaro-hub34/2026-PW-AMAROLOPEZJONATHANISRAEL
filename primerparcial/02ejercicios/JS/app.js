@@ -25,6 +25,12 @@ formArreglos.addEventListener('submit', (evento) =>{
         case 'forEach':
             resultado = talleres.map((t) => `- ${t.nombre} (${t.inscritos}/${t.cupo})`).join('\n');
             break;
+        case 'map':
+            resultado = talleres.map((t) => t.nombre).join(', ');
+            break;
+        case 'filter':
+            resultado = talleres.filter((t) => t.inscritos >= t.cupo).map((t) => t.nombre).join(', ');
+            break;
     }
 
 

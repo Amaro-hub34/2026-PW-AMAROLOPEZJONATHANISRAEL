@@ -39,3 +39,5 @@ console.log(talleresPorReduce);
 // TODO: filter + map encadenados — nombres de los talleres que SÍ tienen cupo disponible
 
 console.log("Aplicando la función Filter y Map en los talleres")
+const talleresPorFilterMap = talleres.filter((t) => t.inscritos < t.cupo).map((t) => t.nombre);
+console.log(talleresPorFilterMap);

@@ -32,5 +32,10 @@ console.log(talleresPorFind);
 
 
 // TODO: reduce — calcula `totalInscritos`, la suma de inscritos de todos los talleres
+console.log("Aplicando la función Reduce en los talleres")
+const talleresPorReduce = talleres.reduce((total, t) => total + t.inscritos, 0);
+console.log(talleresPorReduce);
 
 // TODO: filter + map encadenados — nombres de los talleres que SÍ tienen cupo disponible
+
+console.log("Aplicando la función Filter y Map en los talleres")

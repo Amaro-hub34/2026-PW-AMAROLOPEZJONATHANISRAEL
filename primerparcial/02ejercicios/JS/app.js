@@ -36,6 +36,8 @@ formArreglos.addEventListener('submit', (evento) =>{
     const operacion = selectOperacionArreglo.value;
 
     let resultado;
+    //Lógica para cada operación de arreglo, o sea el switch para que se pueda ejecutar y mostrar el resultado en el div
+    
 
     switch(operacion){
         case 'forEach':
@@ -61,6 +63,4 @@ formArreglos.addEventListener('submit', (evento) =>{
 
     resultadoArreglos.textContent = resultado;
 });
-
-
 pintarTabla();

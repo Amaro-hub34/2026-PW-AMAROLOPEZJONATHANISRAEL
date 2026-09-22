@@ -63,6 +63,7 @@ tr {
 }
 
 .resultado {
+    display: block;
     margin-top: 1rem;
     padding: 1rem;
     background-color: #1f2937;

@@ -31,6 +31,12 @@ formArreglos.addEventListener('submit', (evento) =>{
         case 'filter':
             resultado = talleres.filter((t) => t.inscritos >= t.cupo).map((t) => t.nombre).join(', ');
             break;
+            //Encontrar el primer taller impartido por 'Ing. María López'
+        case 'find':
+            const tallerEncontrado = talleres.find((t) => t.instructor === 'Ing. María López');
+            resultado = tallerEncontrado ? `${tallerEncontrado.nombre} (${tallerEncontrado.inscritos}/${tallerEncontrado.cupo})` : 'No se encontró ningún taller impartido por Ing. María López';
+            break;
+            
     }
 
 

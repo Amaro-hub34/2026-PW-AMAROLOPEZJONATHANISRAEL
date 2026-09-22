@@ -52,17 +52,9 @@ th,td {
 tr {
     border-bottom: 1px solid #e5e7eb;
 }
-a {
-    color: #6473a9;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-    color: #1f2937;
-}
-footer {
-    text-align: center;
-    padding: 1rem;
-    color: #e5e7eb;
-    font-size: 0.875rem;
+.form-arreglos {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
 }

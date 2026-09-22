@@ -5,9 +5,10 @@
 
 body {
     margin: 0;
-    font-family:'Courier New', Courier, monospace;
+    font-family: 'Tahoma', sans-serif;
     color: #1f2937;
     background-color: #6473a9;
+    min-height: 100vh;
 
 }
 header {
@@ -24,6 +25,7 @@ main {
     max-width: 960px;
     margin: 0 auto;
     padding: 1.5rem;
+    flex: 1;
 }
 footer {
     text-align: center;
@@ -51,7 +53,7 @@ footer {
     font-size: 1.1rem;
 }
 .tarjeta a {
-    color:#1554d2;
+    color: #6473a9;
     text-decoration: none;
 
 }
@@ -73,9 +75,8 @@ footer {
     padding: 0.8rem;
     width: 100%;
     border-radius: 0.5rem;
-    background-color: #444040;
-    color: #ffffff;
-    font-family: 'Times New Roman', Times, serif;
+    color: #030c18;
+    font-family: 'Tahoma', sans-serif;
 }
 .titulo-formulario {
     text-align: center;
@@ -97,14 +98,14 @@ footer {
     display: block;
     margin: 0 auto;
     padding: 0.5rem;
-    background-color: #8e0ccf;
+    background-color: #6473a9;
     color: #0f0f0f;
     border-radius: 0.35rem;
     cursor: pointer;
     border: none;
 }
 #boton-registrar:hover {
-    background-color: #a176bb;
+    background-color: #1f2937;
     color: #100e0e;
 }
 input:invalid {

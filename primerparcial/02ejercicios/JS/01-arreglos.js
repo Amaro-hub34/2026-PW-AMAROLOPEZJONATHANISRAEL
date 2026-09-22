@@ -26,6 +26,10 @@ console.log(llenos.map((t)=> t.nombre))
 
 
 // TODO: find — encuentra el PRIMER taller impartido por 'Ing. María López'
+console.log("Aplicando la función Find en los talleres")
+const talleresPorFind = talleres.find((t) => t.instructor === 'Ing. María López');
+console.log(talleresPorFind);
+
 
 // TODO: reduce — calcula `totalInscritos`, la suma de inscritos de todos los talleres
 

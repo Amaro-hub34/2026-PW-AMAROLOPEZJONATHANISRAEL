@@ -8,6 +8,7 @@ const talleres = [
 
 function pintarTabla(){
     //debe de obtener la tabla y rellenarla con los datos de talleres
+    const tabla = document.getElementById('tabla-talleres');
 }
 
 const formArreglos = document.getElementById('form-arreglos');

@@ -122,3 +122,10 @@ input:valid {
     border-radius: 0.25rem;
     font-family: 'Cedilla', sans-serif;
 }
+a{
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    margin: 1rem;
+}
+

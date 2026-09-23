@@ -71,4 +71,10 @@ tr {
     border-radius: 0.5rem;
     border: 1px solid #374151;
 }
+a{
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    margin: 1rem;
+}
 

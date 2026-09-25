@@ -77,4 +77,11 @@ a{
     font-weight: bold;
     margin: 1rem;
 }
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: #f9fafb;
+}
+
 

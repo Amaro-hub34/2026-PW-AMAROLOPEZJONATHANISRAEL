@@ -53,6 +53,49 @@
 
             <output class="resultado" id="resultado-arreglo" for="form-arreglo" ></output>
         </section>
+
+        <section class="ejercicio" aria-labelledby="titulo-objeto">
+            <h2 id="titulo-objeto">Manejo de Objetos y JSON</h2>
+            <p>Edita el taller y elige que operación deseas aplicar</p>
+            <form id="form-objetos" class="formulario">
+                <div class="campo">
+                    <label for="obj-nombre">Nombre</label>
+                    <input type="text" name="obj-nombre" id="obj-nombre" value="Introducción a Phyton">
+                </div>
+                <div class="campo">
+                    <label for="obj-instructor">Instructor</label>
+                    <input type="text" name="obj-instructor" id="obj-instructor" value="Ing. María López">
+                </div>
+                <div class="campo">
+                    <label for="obj-cupo">Cupo</label>
+                    <input type="number" name="obj-cupo" id="obj-cupo" value="25" min="0">
+                </div>
+                <div class="campo">
+                    <label for="obj-inscritos">Inscritos</label>
+                    <input type="number" name="obj-inscritos" id="obj-inscritos" value="25" min="0">
+                </div>
+                <div class="campo">
+                    <label for="operacion-objeto">Tipo de Operación</label>
+                    <select name="operacion-objeto" id="operacion-objeto">
+                        <option value="keys">Object.keys</option>
+                        <option value="values">Object.values</option>
+                        <option value="entries">Object.entries</option>
+                        <option value="stringify">JSON a Cadena</option>
+                        <option value="roundtrip">Ida y Vuelta (JSON A CADENA)</option>
+                    </select>
+                </div>
+                <br>
+
+                <button type="submit">Ejecutar opción</button>
+            </form>
+            <output class="resultado" id="resultado-objeto" for="form-objetos"></output>
+
+
+        </section>
+
+
+
+
     </main>
 
     <script src="./JS/app.js" ></script>

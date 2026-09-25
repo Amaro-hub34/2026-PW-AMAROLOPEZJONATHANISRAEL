@@ -83,5 +83,25 @@ a{
     gap: 0.5rem;
     color: #f9fafb;
 }
+.contenedor-video {
+  position: relative;
+  width: 70%;
+  margin: 20px auto; 
+  height: 400px;
+  overflow: hidden;
+  border-radius: 16px; 
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+  background-color: #000; 
+}
+
+
+.contenedor-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 
 

@@ -91,9 +91,35 @@
             <output class="resultado" id="resultado-objeto" for="form-objetos"></output>
 
         </section>
+
+        <section class="ejercicio" aria-labelledby="titulo-texto">
+            <h2 class="titulo-texto">3.- Strings y fechas</h2>
+            <p>La fecha usa el mismo formato
+            <strong>DD/MM/AAAA</strong> valido con regex</p>
+            <form id="form-texto" class="formulario">
+                <div class="campo">
+                    <label for="nombre-entrada">Nombre</label>
+                    <input type="text" name="nombre-texto" id="nombre-texto" value=" María López">
+                </div>
+                 <div class="campo">
+                    <label for="cupo-texto">Cupo(para el template)</label>
+                    <input type="number" name="cupo-texto" id="cupo-texto" value="25" min="0">
+                </div>
+                <div class="campo">
+                    <label for="fecha-texto">Fecha de asistencia</label>
+                    <input type="text" name="fecha-texto" id="fecha-texto" placeholder="05/09/2026">
+                    <span class="error" id="error-fecha"></span>
+                </div>
+                <button type="submit">Ejecutar </button>
+            </form>
+            <output class="resultado" id="resultado-texto" for="form-texto"></output>
+
+    
         <div class="contenedor-video">
             <iframe width="560" height="315" src="https://www.youtube.com/embed/L2BMw8YTC_Q?si=8BHicSttyQxY8-y9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
+
+
 
 
 

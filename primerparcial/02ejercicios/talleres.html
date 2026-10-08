@@ -92,27 +92,27 @@
 
         </section>
 
-        <section class="ejercicio" aria-labelledby="titulo-texto">
-            <h2 class="titulo-texto">3.- Strings y fechas</h2>
-            <p>La fecha usa el mismo formato
-            <strong>DD/MM/AAAA</strong> valido con regex</p>
+        <section class="ejercicio" aria-labelledby="titulo-texto" >
+            <h2 id="titulo-texto" >3.- Strings y fechas</h2>
+            <p>La fecha usa el mismo formato <strong>DD/MM/AAAA</strong> valido con regex </p>
             <form id="form-texto" class="formulario">
-                <div class="campo">
-                    <label for="nombre-entrada">Nombre</label>
-                    <input type="text" name="nombre-texto" id="nombre-texto" value=" María López">
+                <div class="campo" >
+                    <label for="nombre-texto">Nombre (con espadios de sobra a proposito)</label>
+                    <input type="text" id="nombre-texto" name="nombre-texto" value="   María Lopez     " >
                 </div>
-                 <div class="campo">
-                    <label for="cupo-texto">Cupo(para el template)</label>
-                    <input type="number" name="cupo-texto" id="cupo-texto" value="25" min="0">
+                <div class="campo" >
+                    <label for="cupo-texto">Cupo (para el template)</label>
+                    <input type="number" id="cupo-texto" name="cupo-texto" value="25" min="0" >
                 </div>
-                <div class="campo">
-                    <label for="fecha-texto">Fecha de asistencia</label>
-                    <input type="text" name="fecha-texto" id="fecha-texto" placeholder="05/09/2026">
-                    <span class="error" id="error-fecha"></span>
+                <div class="campo" >
+                    <label for="fecha-texto">Fecha de assitencia (DD/MM/AAAA)</label>
+                    <input type="text" id="fecha-texto" name="fecha-texto" value="05/09/2026" placeholder="05/09/2026" >
+                    <span class="error"  id="error-fecha"></span>
                 </div>
-                <button type="submit">Ejecutar </button>
+                <button type="submit" >Ejecutar</button>
             </form>
-            <output class="resultado" id="resultado-texto" for="form-texto"></output>
+            <output class="resultado" id="resultado-texto" for="form-texto" ></output>
+        </section>
 
     
         <div class="contenedor-video">

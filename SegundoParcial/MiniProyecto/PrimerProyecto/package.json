@@ -1,0 +1,19 @@
+{
+  "name": "primerproyecto",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Amaro-hub34",
+  "main": "index.js",
+  "scripts": {
+    "dev" : "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "next": "^16.4.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  }
+}

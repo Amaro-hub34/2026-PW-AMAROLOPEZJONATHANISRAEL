@@ -16,5 +16,5 @@ function validarContrasena(contrasena) {
   if (typeof contrasena !== 'string') return false;
   return contrasena.length >= 8;
 }
-
+//comentario prueba para cambio de commit 
 module.exports = { validarCorreo, validarBoleta, validarContrasena };

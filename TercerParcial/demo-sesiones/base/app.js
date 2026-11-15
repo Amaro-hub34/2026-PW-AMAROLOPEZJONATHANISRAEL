@@ -154,6 +154,15 @@ function crearApp(config, pool){
         mensaje: `Hola ${req.session.usuario.nombre} rol:  ${req.session.usuario.rol}, visitas: ${req.session.visitas}`,
       });
   });
+  app.get('/api/admin/reporte', requiereSesion, requiereRol('admin'), (req, res) => {
+    res.json({
+      reporte: {
+        mensaje: "Reporte confidencial del sistema",
+        generadoPor: req.session.usuario.usuario,
+        fecha: new Date().toISOString()
+      }
+    });
+  });
 
   //vamos a desarollar una prueba uitadria para verificar con v o fl las pruebas ejectuadas
   app.get('/api/diagnostico/sesiones', async (req, res, next) => {

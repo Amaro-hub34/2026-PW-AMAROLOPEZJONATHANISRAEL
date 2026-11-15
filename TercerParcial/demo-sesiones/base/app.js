@@ -36,8 +36,8 @@ function crearApp(config, pool){
     saveUninitialized: false,
     rolling : config.rolling || false,
     cookie : {
-      maxAge: config.maxAge || 1000 * 60 * 60 * 24, //1 día
-      httpOnly : config.httpOnly || true,
+      maxAge: config.maxAgeMs,
+      httpOnly : config.httpOnly,
       sameSite : config.sameSite || 'lax',
       secure : config.secure || false,
     },
@@ -54,7 +54,7 @@ function crearApp(config, pool){
   //para ello debemos de identificarla y validarla en sus diferentes momentos
   function vencida(sesion){
     const desde = config.rolling ? sesion.ultimoUso : sesion.creada;
-    return Date.now() - desde > config.maxAge;
+    return Date.now() - desde > config.maxAgeMs;
   }
 
   //mandar un 401 no se quien eres
@@ -144,14 +144,16 @@ function crearApp(config, pool){
     res.json({
       usuario: req.session.usuario,
       sesion: idCorto(req.sessionID),
-      expiraEnSegundos : Math.max(0, Math.round((desde + config.maxAge - Date.now()) / 1000)),
+      expiraEnSegundos : Math.max(0, Math.round((desde + config.maxAgeMs - Date.now()) / 1000)),
     });
   });
 
   app.get('/api/perfil', requiereSesion, (req, res) => {
       req.session.visitas = (req.session.visitas || 0) + 1;
       res.json({
-        mensaje: `Hola ${req.session.usuario.nombre} rol:  ${req.session.usuario.rol}, visitas: ${req.session.visitas}`,
+        mensaje: `Hola, ${req.session.usuario.nombre}`,
+        rol: req.session.usuario.rol,
+        visitas: req.session.visitas,
       });
   });
   app.get('/api/admin/reporte', requiereSesion, requiereRol('admin'), (req, res) => {

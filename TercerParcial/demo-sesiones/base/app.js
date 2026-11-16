@@ -165,6 +165,7 @@ function crearApp(config, pool){
       }
     });
   });
+  
 
   //vamos a desarollar una prueba uitadria para verificar con v o fl las pruebas ejectuadas
   app.get('/api/diagnostico/sesiones', async (req, res, next) => {

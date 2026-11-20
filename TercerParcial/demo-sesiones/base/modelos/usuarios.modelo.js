@@ -38,3 +38,6 @@ function crearModeloUsuarios(pool) {
 }
 
 module.exports = { crearModeloUsuarios };
+
+//Tiene que estar en deploy, (servidor), cuando lleguemos, tenemos que acceder desde las computadoras de la escuela, funcionalidad, código
+// 3 PREGUNTAS POR PERSONA, TERMINA Y SIGUE EL SIGUIENTE

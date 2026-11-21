@@ -6,7 +6,7 @@ const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 const { crearModeloUsuarios } = require('./modelos/usuarios.modelo');
 const crypto = require('crypto');
-const jtw = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const { crearModeloTokens } = require('./modelos/tokens.modelo');
 
 const NOMBRE_COOKIE = 'connect.sid';
@@ -24,6 +24,7 @@ function crearApp(config, pool){
   app.use(express.json());
   //primero debemos de obtener el modelo de la bd
   const usuarios = crearModeloUsuarios(pool);
+  const tokens = crearModeloTokens(pool);
 
   //aquí nosotros debemos de identificar la sesión será por tabla en bd, o la sesión será una cookie en memoria del navegador
   //o es una mezcla, sesion en memoria de servidor y por tabla en bd y cookie en navegador y bd
@@ -188,25 +189,17 @@ function crearApp(config, pool){
   });
 
 
-  app.use(express.static(path.join(__dirname, 'public')));
-
-  app.use((error, req, res, next) => {
-    console.error(error);
-    res.status(500).json({error: 'Error del servidor'});
-  });
-
-  app.use('/api', (req, res) => res.status(404).json({error: 'Ruta no encontrada'}));
-
   //implementación de jwt
   const SECRETO_JWT = config.jwtSecreto || process.env.JWT_SECRET || 'secreto-jwt-solo-para-esta-demo';
 
   //vamos a crear una función para poder verificar y firmar que el token sea autentico y si no a volar
 
   function firmarToken(usuario){
-    return jtw.sign(
+    return jwt.sign(
       {
         sub : String(usuario.id), usuario: usuario.usuario, nombre: usuario.nombre, rol: usuario.rol
       },
+      SECRETO_JWT,
       {
         algorithm: 'HS256', expiresIn : config.jwtExpiraSeg, jwtid : crypto.randomUUID()
       }
@@ -218,7 +211,7 @@ function crearApp(config, pool){
 
   async function requiereJWT(req, res, next){
     const encabezado = req.headers.authorization || '';
-    if (!encabezado.startWith('Bearer ')){
+    if (!encabezado.startsWith('Bearer ')){
       return res.status(401).json({error: 'Falta un token asociado'});
     }
     const token = encabezado.slice('Bearer '.length);
@@ -228,7 +221,7 @@ function crearApp(config, pool){
     try{
       datos = jwt.verify(token, SECRETO_JWT, {algorithms: ['HS256']});
     } catch (error){
-      if (error === 'TokenExpiredError'){
+      if (error.name === 'TokenExpiredError'){
         return res.status(401).json({error: '401 Token expirado, por favor renuevelo'});
       }
 
@@ -283,7 +276,7 @@ function crearApp(config, pool){
   });
 
   app.post('/api/jwt/refresh', requiereJWT, (req, res) => {
-    const { sub, usuario, nombre, rol} = req.jwtM
+    const { sub, usuario, nombre, rol} = req.jwt;
     res.json({token: firmarToken({id: sub, usuario, nombre, rol})});
   });
 
@@ -298,6 +291,25 @@ function crearApp(config, pool){
       next(error);
     }
   });
+
+  //lista negra de tokens, solo para la clase (igual que /api/diagnostico/sesiones)
+  app.get('/api/diagnostico/tokens', async (req, res, next) => {
+    try{
+      res.json(await tokens.listar());
+    } catch (error){
+      next(error);
+    }
+  });
+
+  //estos van al final: si estuvieran antes, las rutas de jwt nunca se alcanzarían (404)
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  app.use((error, req, res, next) => {
+    console.error(error);
+    res.status(500).json({error: 'Error del servidor'});
+  });
+
+  app.use('/api', (req, res) => res.status(404).json({error: 'Ruta no encontrada'}));
 
 
 

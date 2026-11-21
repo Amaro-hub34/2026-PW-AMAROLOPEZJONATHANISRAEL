@@ -23,9 +23,9 @@ module.exports = {
   regenerarAlEntrar: true,
 
   //para el jwt necesitamos 2 variables más para poder manipular dicha sesión, la expiración se mide en segundos
-  jtwExpiraSeg : 5 * 60,
+  jwtExpiraSeg : 5 * 60,
 
   //tenemos que identificar si el token es válido o no para la sesión, para ello vamos a revocarlo y colocarlo en una lista negra
-  jtwRevocar : true,
+  jwtRevocar : true,
 
 };

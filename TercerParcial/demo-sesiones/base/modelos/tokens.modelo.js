@@ -17,7 +17,7 @@ function crearModeloTokens(pool) {
 
     async function listar(){
         const [filas] = await pool.query(
-            'SELECT jti, usuario, expira, revocado_en FROM tokens_revocados ORDER BY DESC, jti'
+            'SELECT jti, usuario, expira, revocado_en FROM tokens_revocados ORDER BY revocado_en DESC'
         );
         return filas;
     };

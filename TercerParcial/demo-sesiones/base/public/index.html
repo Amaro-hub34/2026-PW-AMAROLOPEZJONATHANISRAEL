@@ -65,6 +65,25 @@
       <h2>5 · Configuración actual (<code>config.js</code>)</h2>
       <pre id="config">…</pre>
     </section>
+
+    <section class="tarjeta">
+      <h2>6 · Sesión con JWT</h2>
+      <p id="estado-jwt" class="estado sin-sesion">Sin token</p>
+        <div class="botones">
+          <button type="button" id="btn-jwt-login">POST /api/jwt/login</button>
+          <button type="button" data-jwt data-metodo="GET"  data-url="/api/jwt/perfil">GET /api/jwt/perfil</button>
+          <button type="button" data-jwt data-metodo="GET"  data-url="/api/jwt/admin/reporte">GET /api/jwt/admin/reporte</button>
+          <button type="button" data-jwt data-metodo="POST" data-url="/api/jwt/refresh">POST /api/jwt/refresh</button>
+          <button type="button" data-jwt data-metodo="POST" data-url="/api/jwt/logout" class="peligro">POST /api/jwt/logout</button>
+        </div>
+      <p class="detalle">El token (lo guarda el navegador, no el servidor):</p>
+        <p class="detalle">El token (lo guarda el navegador, no el servidor):</p>
+        <pre id="jwt-token">(sin token)</pre>
+        <p class="detalle">Payload decodificado: cualquiera puede leerlo, solo está firmado, no cifrado.</p>
+        <pre id="jwt-payload">(vacío)</pre>
+        <p class="detalle">Lista negra en MySQL (<code>tokens_revocados</code>):</p>
+        <pre id="jwt-revocados">(vacío)</pre>
+      </section>
   </main>
 
   <script src="demo.js"></script>

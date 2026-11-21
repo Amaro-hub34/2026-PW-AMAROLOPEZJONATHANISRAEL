@@ -2,18 +2,31 @@
 const $ = (id) => document.getElementById(id);
 
 /*
+* token guarda el JWT que regresa /api/jwt/login.
+* Se guarda en una variable y no en localStorage para que otro script de la página
+* no lo pueda leer tan fácil; por eso se pierde al recargar la página.
+* A diferencia de la cookie, el servidor no guarda nada: el token solo existe aquí.
+*/
+let token = null;
+
+/*
 * La función llamar hace un fetch a la API y regresa un objeto con el estado
 * y los datos (si los hay).
 * El cuerpo se manda como JSON y el Content-Type solo cuando hay cuerpo,
 * porque express.json() lo necesita para saber que debe leerlo como JSON.
-* No se usan credenciales porque la cookie se manda automáticamente por el navegador.
+* La cookie la manda el navegador solo, pero el token no: si conToken es true
+* se agrega el encabezado Authorization: Bearer <token>, que es donde lo busca requiereJWT.
+* Se usa ...opciones.headers para no borrar el Content-Type cuando también hay cuerpo.
 */
 
-async function llamar(metodo, url, cuerpo){
+async function llamar(metodo, url, cuerpo, conToken){
     const opciones = {method: metodo};
     if (cuerpo) {
         opciones.body = JSON.stringify(cuerpo);
         opciones.headers = {'Content-Type': 'application/json'};
+    }
+    if (conToken && token) {
+        opciones.headers = { ...opciones.headers, Authorization: `Bearer ${token}`};
     }
     
     const respuesta = await fetch(url, opciones);
@@ -92,6 +105,41 @@ async function refrescarEstado(){
     $('cookie-js').textContent = document.cookie || '(vacío)';
 }
 
+
+/*
+* La función refrescarJWT pinta la tarjeta 6: el estado, el token, el payload y la lista negra.
+* Se le pregunta al servidor con /api/jwt/perfil en lugar de confiar solo en el payload,
+* porque el payload no sabe si el token ya fue revocado (logout) ni si la firma sigue siendo válida;
+* eso solo lo puede verificar el servidor con su secreto y la tabla tokens_revocados.
+* Si el servidor responde error se muestra su mensaje (expirado, inválido o revocado).
+* La lista negra se pide siempre, haya token o no, para ver lo que guarda el servidor.
+*/
+async function refrescarJWT(){
+    if (!token) {
+        $('estado-jwt').textContent = 'Sin token';
+        $('estado-jwt').className = 'estado sin-sesion';
+        $('jwt-token').textContent = '(sin token)';
+        $('jwt-payload').textContent = '(vacío)';
+    } else {
+        $('jwt-token').textContent = token;
+        $('jwt-payload').textContent = JSON.stringify(decodificar(token), null, 2);
+
+        const perfil = await llamar('GET', '/api/jwt/perfil', null, true);
+        if (perfil.status === 200) {
+            $('estado-jwt').textContent = perfil.datos.mensaje + ' rol: ' + perfil.datos.rol + ' segundos: ' + perfil.datos.expiraEnSegundos;
+            $('estado-jwt').className = 'estado con-sesion';
+        } else {
+            $('estado-jwt').textContent = perfil.datos.error;
+            $('estado-jwt').className = 'estado sin-sesion';
+        }
+    }
+
+    const lista = await llamar('GET', '/api/diagnostico/tokens');
+    $('jwt-revocados').textContent = lista.datos.length === 0
+        ? '(vacío)'
+        : JSON.stringify(lista.datos, null, 2);
+}
+
 /*
 * La función refrescarTabla le pide al servidor la lista de sesiones que tiene guardadas
 * y la pinta en la tarjeta 4.
@@ -150,6 +198,22 @@ async function refrescarTodo(){
 }
 
 /*
+* La función decodificar saca el payload del JWT para mostrarlo en la página.
+* Un JWT tiene tres partes separadas por punto: encabezado.payload.firma; el payload es la del medio.
+* Se puede leer sin el secreto porque el token solo está firmado, no cifrado:
+* la firma sirve para que nadie lo pueda modificar, no para ocultarlo.
+* Los replace pasan de base64url (usa - y _) a base64 normal (usa + y /), porque atob solo entiende base64.
+*/
+function decodificar(t){
+    const parteDelMedio = t.split('.')[1];
+    const base64 = parteDelMedio.replace(/-/g, '+').replace(/_/g, '/');
+    const texto = atob(base64);
+    return JSON.parse(texto);
+}
+
+
+
+/*
 * Eventos: conectan los botones y el formulario con las funciones.
 * Se pasa el nombre de la función sin paréntesis porque el botón la debe ejecutar
 * hasta que le den clic, no al cargar la página.
@@ -175,7 +239,8 @@ $('form-login').addEventListener('submit', async (e) => {
     await refrescarTodo();  
 });
 
-document.querySelectorAll('button[data-url]').forEach((btn) => {
+// Se excluyen los botones data-jwt porque esos necesitan mandar el token y tienen su propio forEach abajo.
+document.querySelectorAll('button[data-url]:not([data-jwt])').forEach((btn) => {
     btn.addEventListener('click', async () => {
         const url = btn.dataset.url;
         const metodo = btn.dataset.metodo;
@@ -186,12 +251,51 @@ document.querySelectorAll('button[data-url]').forEach((btn) => {
     });
 });
 
+/*
+* Login con JWT: usa el mismo usuario y contraseña de la tarjeta 2.
+* Es un click y no un submit porque el botón está fuera del form, así que no hace falta preventDefault.
+* Si el servidor responde 200 se guarda el token en la variable; la contraseña no se anota en la bitácora.
+*/
+$('btn-jwt-login').addEventListener('click', async () => {
+    const r = await llamar('POST', '/api/jwt/login', {
+        usuario: $('usuario').value,
+        contrasena: $('contrasena').value
+    });
+    if (r.status === 200) {
+        token = r.datos.token;
+    }
+    anotar('POST', '/api/jwt/login', r.status, r.datos);
+    await refrescarJWT();
+});
+
+/*
+* Botones de JWT (perfil, admin, refresh y logout): todos mandan el token, por eso el true.
+* Solo refresh regresa un token nuevo, así que solo en esa ruta se reemplaza.
+* En logout NO se borra el token a propósito: así se puede demostrar que, ya revocado,
+* el mismo token recibe 401 Token revocado.
+*/
+document.querySelectorAll('button[data-jwt]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+        const url = btn.dataset.url;
+        const metodo = btn.dataset.metodo;
+
+        const r = await llamar(metodo, url, null, true);
+
+        if (url === '/api/jwt/refresh' && r.status === 200) {
+            token = r.datos.token;
+        }
+        anotar(metodo, url, r.status, r.datos);
+        await refrescarJWT();
+    });
+});
+
 $('usuario').addEventListener('change', () => {
     $('contrasena').value = $('usuario').value + '12345';
 });
 
 /*
-* La función iniciar se ejecuta al cargar la página: muestra la configuración y refresca todo.
+* La función iniciar se ejecuta al cargar la página: muestra la configuración y refresca todo,
+* incluida la tarjeta de JWT (que empieza en "Sin token" porque la variable se pierde al recargar).
 * Se mete en una función async porque un await suelto fuera de una función rompe el archivo.
 * No hace falta esperar a DOMContentLoaded porque el <script> está al final del <body>,
 * así que cuando se ejecuta, todos los elementos de la página ya existen.
@@ -201,6 +305,6 @@ async function iniciar(){
     const llamarConfig = await llamar('GET', '/api/config');
     $('config').textContent = JSON.stringify(llamarConfig.datos, null, 2);
     await refrescarTodo();
-    
+    await refrescarJWT();
 }
 iniciar();

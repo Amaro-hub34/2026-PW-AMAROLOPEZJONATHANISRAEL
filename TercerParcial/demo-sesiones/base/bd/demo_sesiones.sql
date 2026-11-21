@@ -31,6 +31,15 @@ CREATE TABLE sessions (
   PRIMARY KEY (session_id)
 );
 
+-- Lista negra de JWT: el logout guarda aquí el jti del token para que ya no se acepte.
+-- expira = cuándo vence el token (después de esa hora la fila ya no hace falta)
+CREATE TABLE tokens_revocados (
+  jti VARCHAR(64) PRIMARY KEY,
+  usuario VARCHAR(30) NOT NULL,
+  expira DATETIME NOT NULL,
+  revocado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Contraseñas: ana12345, luis12345 y admin12345
 INSERT INTO usuarios (usuario, nombre, rol, contrasena_hash) VALUES
   ('ana', 'Ana López', 'alumno', '$2a$10$zngOdAyKeY6JTTKdax4nwu9nq7YOkXlSCCfouJLolZF6JR0QIabSy'),
